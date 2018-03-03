@@ -4,6 +4,8 @@ Savegame editor for Imperialism 2.
 
 It's mostly a world editor.
 
+Be patient. There is no loading indicator and map editor loads about 10 seconds on fast computers.
+
 ## Features
 
 * Show/hide map for each player
