@@ -15,4 +15,8 @@ It's mostly a world editor.
 
 ## Screens
 
-![Imperialism2SGEditor-screen](https://github.com/Reken41/ImperiumGalacticaSGEditor/raw/master/Screens/1.jpg)
+![Imperialism2SGEditor-screen1](https://github.com/Reken41/Imperialism2_SGEditor/raw/master/Screens/screen1.jpg)
+
+![Imperialism2SGEditor-screen2](https://github.com/Reken41/Imperialism2_SGEditor/raw/master/Screens/screen2.jpg)
+
+![Imperialism2SGEditor-screen3](https://github.com/Reken41/Imperialism2_SGEditor/raw/master/Screens/screen3.jpg)
