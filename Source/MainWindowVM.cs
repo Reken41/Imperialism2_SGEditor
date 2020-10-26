@@ -129,7 +129,7 @@ namespace Imperialism_2_SGEditor
       {
         if (player < 255)
         {
-          if (IsExplorable(field)) continue;
+          if (IsNotExplorable(field)) continue;
           if (HasPreciousResource(field)) continue;
           byte val = field.RawData[DB.RESOURCE_DISCOVERED_BY];
           string binary = Convert.ToString(val, 2).PadLeft(6, '0');
@@ -141,7 +141,7 @@ namespace Imperialism_2_SGEditor
       else Status = "Resources revealed for all players!";
     }
 
-    private static bool IsExplorable(MapField field)
+    private static bool IsNotExplorable(MapField field)
     {
       return field.RawData[DB.LAND_TYPE_GFX] < 8 || field.RawData[DB.LAND_TYPE_GFX] > 11;
     }
