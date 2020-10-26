@@ -21,7 +21,7 @@ namespace Imperialism_2_SGEditor
     public const byte LAND_TYPE_RES = 21;//resource that can be used
     public const byte LAND_TYPE_GFX = 22;//visual only
     public const byte PROVINCE_ID = 23;//255 is sea, other numbers are province id
-    public static Brush[] COUNTRY_COLORS = new Brush[6] { Brushes.Blue, Brushes.Red, Brushes.Teal, Brushes.Orange, Brushes.Green, Brushes.Yellow };
+    public static Brush[] COUNTRY_COLORS = new Brush[6] { Brushes.Blue, Brushes.Red, Brushes.Cyan, Brushes.Orange, Brushes.SpringGreen, Brushes.Yellow };
     public static string[] COUNTRY_NAMES = new string[22] { "France", "England", "Sweden", "Holland", "Portugal", "Spain", "Ireland", "Scotland", "Denmark", "Germany", "Italy", "Switzerland", "The Aztecs", "The Incas", "The Mayas", "The Taino", "The Iroquois", "The Sioux", "The Kwakiutl", "The Cherokee", "The Huron", "The Pueblo" };
     public static string[] HEADERS = new string[40] { "0", "1", "2", "3", "Owner1", "Owner2", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "Prod lvl", "Res discovered by", "18", "19", "20", "Type (res)", "Type (vis)", "Sea/ID", "24", "25", "26", "27", "28", "Buildings", "30", "Explored", "32", "33", "34", "35", "36", "37", "38", "39" };
 

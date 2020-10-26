@@ -6,34 +6,34 @@
         xmlns:local="clr-namespace:Imperialism_2_SGEditor"
         mc:Ignorable="d" Loaded="UniformGrid_Loaded"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title="Imperialism II Save Game Editor v0.1 (by Reken 41 = adi41)" Height="442.6" Width="680.849">
+        Title="Imperialism II Save Game Editor v0.1.0.2 (by Reken411=adi41 and jjalexander) -> github.com/Reken41" Height="442.6" Width="680.849">
   <Window.Resources>
-    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
   </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition/>
-      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Button x:Name="OpenSavedGameBtn" Command="{Binding LoadSavedGameCommand}" Content="Open saved game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="115"/>
-    <Button x:Name="SaveSavedGameBtn" Command="{Binding SaveSavedGameCommand}" Content="Save changes" HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="90"/>
-    <TextBlock x:Name="CurrentFileTxtBl" FontWeight="Bold" FontSize="14" TextWrapping="Wrap" Margin="225,9,-0.4,0" Text="{Binding FileName, FallbackValue=Use Open... button to load saved game}" VerticalAlignment="Top"/>
+    <Button x:Name="OpenSavedGameBtn" Command="{Binding LoadSavedGameCommand}" Content="Open saved game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="115" />
+    <Button x:Name="SaveSavedGameBtn" Command="{Binding SaveSavedGameCommand}" Content="Save changes" HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="90" />
+    <TextBlock x:Name="CurrentFileTxtBl" FontWeight="Bold" FontSize="14" TextWrapping="Wrap" Margin="225,9,-0.4,0" Text="{Binding FileName, FallbackValue=Use Open... button to load saved game}" VerticalAlignment="Top" />
     <TabControl Grid.Row="1" Margin="0,5,0,0">
       <TabItem Header="General">
         <Grid Background="#FFE5E5E5">
           <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
           </Grid.ColumnDefinitions>
           <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
           </Grid.RowDefinitions>
           <TextBlock Margin="5" FontSize="14" Text="Player country name:" HorizontalAlignment="Right" VerticalAlignment="Center" />
           <TextBox Grid.Column="1" IsReadOnly="True" Padding="30,5,5,5" Text="{Binding PlayerCountryName}" VerticalAlignment="Center" FontSize="14" VerticalContentAlignment="Center" />
@@ -100,7 +100,7 @@
               <ComboBox ItemsSource="{Binding Source={x:Static local:DB.LandTypes}}" SelectedValue="{Binding SelectedMapField.RawData[22]}" SelectedValuePath="Id" SelectionChanged="ComboBox_SelectionChanged">
                 <ComboBox.ItemTemplate>
                   <DataTemplate>
-                    <Image Width="48" Height="48" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Center"/>
+                    <Image Width="48" Height="48" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Center" />
                   </DataTemplate>
                 </ComboBox.ItemTemplate>
               </ComboBox>
@@ -108,7 +108,7 @@
               <ComboBox ItemsSource="{Binding Source={x:Static local:DB.Resources}}" SelectedValue="{Binding SelectedMapField.RawData[21]}" SelectedValuePath="Id" SelectionChanged="ComboBox_SelectionChanged">
                 <ComboBox.ItemTemplate>
                   <DataTemplate>
-                    <Image Width="45" Height="35" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Center"/>
+                    <Image Width="45" Height="35" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Center" />
                   </DataTemplate>
                 </ComboBox.ItemTemplate>
               </ComboBox>
@@ -158,12 +158,12 @@
                   <DataTemplate>
                     <Border x:Name="MapFieldItem" Tag="{Binding}" Height="36" MouseLeftButtonUp="MapFieldItem_MouseLeftButtonUp" BorderBrush="White" BorderThickness="{Binding Border}" Width="{Binding Shift}">
                       <Grid>
-                        <Image Source="{Binding Img}" Stretch="Fill"/>
+                        <Image Source="{Binding Img}" Stretch="Fill" />
                         <Border Margin="1" BorderBrush="DeepPink" BorderThickness="3" Visibility="{Binding IsSelected, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <Border Width="18" BorderThickness="0,1,0,0" BorderBrush="White" Visibility="{Binding TopLeftBorder}" HorizontalAlignment="Left" VerticalAlignment="Top" />
                         <Border Width="18" BorderThickness="0,1,0,0" BorderBrush="White" Visibility="{Binding TopRightBorder}" HorizontalAlignment="Right" VerticalAlignment="Top" />
                         <Border Width="6" Height="6" Margin="2" Background="{Binding OwnerColor}" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                        <Image Width="15" Height="12" Source="{Binding ImgResource}" Visibility="{Binding ResourceIconVis}" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <Image Width="15" Height="12" Source="{Binding ImgResource}" Visibility="{Binding ResourceIconVis}" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
                       </Grid>
                     </Border>
                   </DataTemplate>
@@ -176,8 +176,8 @@
       <TabItem x:Name="CitiesTab" Header="Cities/Provincies">
         <Grid>
           <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
           </Grid.RowDefinitions>
           <DataGrid Grid.Row="1" x:Name="CitiesDataGrid" ItemsSource="{Binding Cities}" CanUserAddRows="False" AutoGenerateColumns="False" RowDetailsVisibilityMode="VisibleWhenSelected">
             <DataGrid.Columns>
@@ -427,7 +427,7 @@
     </TabControl>
     <StatusBar Grid.Row="2" VerticalAlignment="Bottom" Height="25" Background="{Binding StatusColor}">
       <StackPanel Orientation="Horizontal">
-        <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Status, FallbackValue=...}" Margin="5,0,0,0"/>
+        <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Status, FallbackValue=...}" Margin="5,0,0,0" />
       </StackPanel>
     </StatusBar>
   </Grid>
