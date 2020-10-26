@@ -49,11 +49,18 @@
               <sys:Byte>255</sys:Byte>
             </Button.CommandParameter>
           </Button>
-          <Button Margin="5" Grid.Row="5" Grid.Column="1" Command="{Binding RevealMapForPlayerCommand}" Content="Reveal map for everybody" ToolTip="Reveals entire map for all players" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button.CommandParameter>
-              <sys:Byte>255</sys:Byte>
-            </Button.CommandParameter>
-          </Button>
+          <StackPanel Grid.Row="5" Grid.Column="1"  Orientation="Horizontal">
+            <Button Margin="5" Command="{Binding RevealMapForPlayerCommand}" Content="Reveal map for everybody" ToolTip="Reveals entire map for all players" VerticalAlignment="Center" HorizontalAlignment="Center">
+              <Button.CommandParameter>
+                <sys:Byte>255</sys:Byte>
+              </Button.CommandParameter>
+            </Button>
+            <Button Margin="5" Command="{Binding RevealResourcesForPlayerCommand}" Content="Reveal resources for everybody" ToolTip="Reveals resources for all players" VerticalAlignment="Center" HorizontalAlignment="Center">
+              <Button.CommandParameter>
+                <sys:Byte>255</sys:Byte>
+              </Button.CommandParameter>
+            </Button>
+          </StackPanel>
           <ScrollViewer Grid.Row="6" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Visible">
             <ItemsControl ItemsSource="{Binding WorldCountries}" HorizontalAlignment="Center">
               <ItemsControl.ItemTemplate>
@@ -65,6 +72,7 @@
                     <TextBlock Text="{Binding Name}" FontSize="14" VerticalAlignment="Center" />
                     <Button Command="{Binding VM.RevealMapForPlayerCommand, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Number}" Margin="5" Content="Reveal map" ToolTip="Reveals entire map for this player" VerticalAlignment="Center" Visibility="{Binding IsEuropePower, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <Button Command="{Binding VM.HideMapForPlayerCommand, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Number}" Content="Hide map" ToolTip="Hides entire map for this player" VerticalAlignment="Center" Visibility="{Binding IsEuropePower, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Button Command="{Binding VM.RevealResourcesForPlayerCommand, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Number}" Margin="5" Content="Reveal resources" ToolTip="Reveals resources for this player" VerticalAlignment="Center" Visibility="{Binding IsEuropePower, Converter={StaticResource BooleanToVisibilityConverter}}" />
                   </StackPanel>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
