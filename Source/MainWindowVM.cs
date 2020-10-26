@@ -109,6 +109,7 @@ namespace Imperialism_2_SGEditor
       {
         if (player < 255)
         {
+          if(field.RawData[DB.BUILDINGS]>0) continue;
           byte val = (byte)(255 - field.RawData[DB.MAP_VISIBILITY]);
           string binary = Convert.ToString(val, 2).PadLeft(6, '0');
           if (binary[5 - player] == '0') field.RawData[DB.MAP_VISIBILITY] -= (byte)Math.Pow(2, player);
