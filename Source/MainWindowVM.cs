@@ -129,6 +129,7 @@ namespace Imperialism_2_SGEditor
         if (player < 255)
         {
           if (IsExplorable(field)) continue;
+          if (HasPreciousResource(field)) continue;
           byte val = field.RawData[DB.RESOURCE_DISCOVERED_BY];
           string binary = Convert.ToString(val, 2).PadLeft(6, '0');
           if (binary[5 - player] == '0') field.RawData[DB.RESOURCE_DISCOVERED_BY] += (byte) Math.Pow(2, player);
@@ -142,6 +143,11 @@ namespace Imperialism_2_SGEditor
     private static bool IsExplorable(MapField field)
     {
       return field.RawData[DB.LAND_TYPE_GFX] < 8 || field.RawData[DB.LAND_TYPE_GFX] > 11;
+    }
+
+    private static bool HasPreciousResource(MapField field)
+    {
+      return field.RawData[DB.LAND_TYPE_RES] >= 24 && field.RawData[DB.LAND_TYPE_RES] <= 27;
     }
 
     private void HideMapForPlayer(byte player)
