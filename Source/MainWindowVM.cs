@@ -33,6 +33,7 @@ namespace Imperialism_2_SGEditor
     public ObservableCollection<MapField> RowItem { get; set; }
 
     private MapField _selectedMapField;
+
     public MapField SelectedMapField
     {
       get { return _selectedMapField; }
@@ -40,6 +41,7 @@ namespace Imperialism_2_SGEditor
     }
 
     private string _img;
+
     public string Img
     {
       get { return _img; }
@@ -47,6 +49,7 @@ namespace Imperialism_2_SGEditor
     }
 
     private string _fileName;
+
     public string FileName
     {
       get { return _fileName; }
@@ -54,6 +57,7 @@ namespace Imperialism_2_SGEditor
     }
 
     private string _mapKey;
+
     public string MapKey
     {
       get { return _mapKey; }
@@ -61,6 +65,7 @@ namespace Imperialism_2_SGEditor
     }
 
     private string _playerCountryName;
+
     public string PlayerCountryName
     {
       get { return _playerCountryName; }
@@ -68,6 +73,7 @@ namespace Imperialism_2_SGEditor
     }
 
     private byte _playerCountryNumber;
+
     public byte PlayerCountryNumber
     {
       get { return _playerCountryNumber; }
@@ -75,6 +81,7 @@ namespace Imperialism_2_SGEditor
     }
 
     private int _worldSize;
+
     public int WorldSize
     {
       get { return _worldSize; }
@@ -82,6 +89,7 @@ namespace Imperialism_2_SGEditor
     }
 
     private int _citiesCount;
+
     public int CitiesCount
     {
       get { return _citiesCount; }
@@ -89,6 +97,7 @@ namespace Imperialism_2_SGEditor
     }
 
     private Brush _playerColor;
+
     public Brush PlayerColor
     {
       get { return _playerColor; }
@@ -108,11 +117,17 @@ namespace Imperialism_2_SGEditor
 
     private void RevealMapForPlayer(byte player)
     {
+      if (string.IsNullOrEmpty(fileNameAdnPath))
+      {
+        SetErrorStatus();
+        return;
+      }
+
       foreach (var field in WorldFields)
       {
         if (player < 255)
         {
-          if(field.RawData[DB.BUILDINGS]>0) continue;
+          if (field.RawData[DB.BUILDINGS] > 0) continue;
           byte val = (byte)(255 - field.RawData[DB.MAP_VISIBILITY]);
           string binary = Convert.ToString(val, 2).PadLeft(6, '0');
           if (binary[5 - player] == '0') field.RawData[DB.MAP_VISIBILITY] -= (byte)Math.Pow(2, player);
@@ -125,6 +140,12 @@ namespace Imperialism_2_SGEditor
 
     private void RevealResourcesForPlayer(byte player)
     {
+      if (string.IsNullOrEmpty(fileNameAdnPath))
+      {
+        SetErrorStatus();
+        return;
+      }
+
       foreach (var field in WorldFields)
       {
         if (player < 255)
@@ -133,7 +154,7 @@ namespace Imperialism_2_SGEditor
           if (HasPreciousResource(field)) continue;
           byte val = field.RawData[DB.RESOURCE_DISCOVERED_BY];
           string binary = Convert.ToString(val, 2).PadLeft(6, '0');
-          if (binary[5 - player] == '0') field.RawData[DB.RESOURCE_DISCOVERED_BY] += (byte) Math.Pow(2, player);
+          if (binary[5 - player] == '0') field.RawData[DB.RESOURCE_DISCOVERED_BY] += (byte)Math.Pow(2, player);
         }
         else field.RawData[DB.RESOURCE_DISCOVERED_BY] = 255;
       }
@@ -153,6 +174,12 @@ namespace Imperialism_2_SGEditor
 
     private void HideMapForPlayer(byte player)
     {
+      if (string.IsNullOrEmpty(fileNameAdnPath))
+      {
+        SetErrorStatus();
+        return;
+      }
+
       foreach (var field in WorldFields)
       {
         if (player < 255)
@@ -169,23 +196,33 @@ namespace Imperialism_2_SGEditor
 
     private void SaveSavedGame()
     {
-      long idx = mapFieldsStartIdx;
-      foreach (var field in WorldFields)
+      if (string.IsNullOrEmpty(fileNameAdnPath) == false)
       {
-        UpdateValueXByte(idx, field.RawData);
-        idx += field.RawData.Length;
-      }
+        long idx = mapFieldsStartIdx;
+        foreach (var field in WorldFields)
+        {
+          UpdateValueXByte(idx, field.RawData);
+          idx += field.RawData.Length;
+        }
 
-      idx = citiesStartIdx;
-      foreach (var city in Cities)
-      {
-        UpdateValueXByte(idx, city.RawData);
-        idx += city.RawData.Length;
-      }
+        idx = citiesStartIdx;
+        foreach (var city in Cities)
+        {
+          UpdateValueXByte(idx, city.RawData);
+          idx += city.RawData.Length;
+        }
 
-      ByteArrayToFile(fileNameAdnPath, RawData);
-      Status = "Save successful";
-      StatusColor = Brushes.DarkGreen;
+        ByteArrayToFile(fileNameAdnPath, RawData);
+        Status = "Save successful";
+        StatusColor = Brushes.DarkGreen;
+      }
+      else SetErrorStatus();
+    }
+
+    public void SetErrorStatus()
+    {
+      Status = "Open saved game file first!";
+      StatusColor = Brushes.Tomato;
     }
 
     public void LoadSlot0()
@@ -228,26 +265,26 @@ namespace Imperialism_2_SGEditor
       }
     }
 
-    bool VerifyHeader()
+    private bool VerifyHeader()
     {
       //header is: IBMa
       return GetValueString(0, 5) == "IBMAa";
       //return array[0] == 73 && array[1] == 66 && array[2] == 77 && array[3] == 65 && array[4] == 97;
     }
 
-    string GetSaveName()
+    private string GetSaveName()
     {
       return GetValueString(12, 28, true);
     }
 
-    void SetPlayerCountryData()
+    private void SetPlayerCountryData()
     {
       PlayerCountryNumber = RawData[6527];
       PlayerCountryName = GetValueString(6528, 12, true);
       PlayerColor = DB.COUNTRY_COLORS[PlayerCountryNumber];
     }
 
-    void SetWorldData()
+    private void SetWorldData()
     {
       WorldCountries = new List<Country>();
       int idx = 6839;
@@ -267,7 +304,7 @@ namespace Imperialism_2_SGEditor
       NotifyPropertyChanged("WorldCountries");
     }
 
-    void SkipUnknownSections()
+    private void SkipUnknownSections()
     {
       loadIdx += 9 + 3040;
 
@@ -284,7 +321,7 @@ namespace Imperialism_2_SGEditor
       loadIdx += 3000;
     }
 
-    void LoadWorldMap()
+    private void LoadWorldMap()
     {
       while (true)
       {
@@ -390,7 +427,7 @@ namespace Imperialism_2_SGEditor
       return null;
     }
 
-    void LoadCities()
+    private void LoadCities()
     {
       Cities = new List<City>();
       City city;
@@ -421,6 +458,7 @@ namespace Imperialism_2_SGEditor
       NotifyPropertyChanged("WorldFields");
     }
   }
+
   /*
    * FILE STRUCTURE:
    * 0-4        - header (IBMAa)
@@ -447,7 +485,7 @@ namespace Imperialism_2_SGEditor
    *    23 byte - field type (12 - tundra, 15 - scrub forest)
    *    22 byte - field type (4 - barren hills)
    *    32 byte is map exploration (FF unexplored, minus player number shows that field as explored for player)
-   *    map data ends with 0x00 
+   *    map data ends with 0x00
    * cities data starts immediately after map data 0x00 end and it is constructed as follows:
    *    length: 209 + city name (diff size, given in one byte before name) (cities count differs for each map)
    */
