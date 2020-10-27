@@ -17,6 +17,7 @@ namespace Imperialism_2_SGEditor
     public const byte MAP_VISIBILITY = 31;
     public const byte BUILDINGS = 29;//55 capitol
     public const byte PROD_LEVEL = 16;//0-4 levels
+    public const byte RESOURCE_DISCOVERED_BY = 17;
     public const byte LAND_TYPE_RES = 21;//resource that can be used
     public const byte LAND_TYPE_GFX = 22;//visual only
     public const byte PROVINCE_ID = 23;//255 is sea, other numbers are province id

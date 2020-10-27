@@ -13,6 +13,7 @@ namespace Imperialism_2_SGEditor
     private readonly ICommand _loadSavedGameCommand;
     private readonly ICommand _saveSavedGameCommand;
     private readonly ICommand _revealMapForPlayerCommand;
+    private readonly ICommand _revealResourcesForPlayerCommand;
     private readonly ICommand _hideMapForPlayerCommand;
     private long loadIdx = 0;
     private string fileNameAdnPath;
@@ -23,6 +24,7 @@ namespace Imperialism_2_SGEditor
     public ICommand LoadSavedGameCommand { get { return _loadSavedGameCommand; } }
     public ICommand SaveSavedGameCommand { get { return _saveSavedGameCommand; } }
     public ICommand RevealMapForPlayerCommand { get { return _revealMapForPlayerCommand; } }
+    public ICommand RevealResourcesForPlayerCommand { get { return _revealResourcesForPlayerCommand; } }
     public ICommand HideMapForPlayerCommand { get { return _hideMapForPlayerCommand; } }
 
     public List<Country> WorldCountries { get; set; }
@@ -98,6 +100,7 @@ namespace Imperialism_2_SGEditor
       _loadSavedGameCommand = new DelegateCommand(LoadSavedGame);
       _saveSavedGameCommand = new DelegateCommand(SaveSavedGame);
       _revealMapForPlayerCommand = new DelegateCommand<byte>(RevealMapForPlayer);
+      _revealResourcesForPlayerCommand = new DelegateCommand<byte>(RevealResourcesForPlayer);
       _hideMapForPlayerCommand = new DelegateCommand<byte>(HideMapForPlayer);
       RowItem = new ObservableCollection<MapField>();
       NotifyPropertyChanged("RowItem");
@@ -118,6 +121,34 @@ namespace Imperialism_2_SGEditor
       }
       if (player < 255) Status = "Map revealing finished for player: " + DB.COUNTRY_NAMES[player];
       else Status = "Map revealed for all players!";
+    }
+
+    private void RevealResourcesForPlayer(byte player)
+    {
+      foreach (var field in WorldFields)
+      {
+        if (player < 255)
+        {
+          if (IsNotExplorable(field)) continue;
+          if (HasPreciousResource(field)) continue;
+          byte val = field.RawData[DB.RESOURCE_DISCOVERED_BY];
+          string binary = Convert.ToString(val, 2).PadLeft(6, '0');
+          if (binary[5 - player] == '0') field.RawData[DB.RESOURCE_DISCOVERED_BY] += (byte) Math.Pow(2, player);
+        }
+        else field.RawData[DB.RESOURCE_DISCOVERED_BY] = 255;
+      }
+      if (player < 255) Status = "Resource revealing finished for player: " + DB.COUNTRY_NAMES[player];
+      else Status = "Resources revealed for all players!";
+    }
+
+    private static bool IsNotExplorable(MapField field)
+    {
+      return field.RawData[DB.LAND_TYPE_GFX] < 8 || field.RawData[DB.LAND_TYPE_GFX] > 11;
+    }
+
+    private static bool HasPreciousResource(MapField field)
+    {
+      return field.RawData[DB.LAND_TYPE_RES] >= 24 && field.RawData[DB.LAND_TYPE_RES] <= 27;
     }
 
     private void HideMapForPlayer(byte player)
