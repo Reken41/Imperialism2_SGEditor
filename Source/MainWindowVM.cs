@@ -146,18 +146,15 @@ namespace Imperialism_2_SGEditor
         return;
       }
 
+      var newlyDiscoveredBy = player < 255 ? (byte) Math.Pow(2, player) : (byte) 127;
+
       foreach (var field in WorldFields)
       {
-        if (player < 255)
-        {
-          if (IsNotExplorable(field)) continue;
-          if (HasPreciousResource(field)) continue;
-          byte val = field.RawData[DB.RESOURCE_DISCOVERED_BY];
-          string binary = Convert.ToString(val, 2).PadLeft(6, '0');
-          if (binary[5 - player] == '0') field.RawData[DB.RESOURCE_DISCOVERED_BY] += (byte)Math.Pow(2, player);
-        }
-        else field.RawData[DB.RESOURCE_DISCOVERED_BY] = 255;
+        if (IsNotExplorable(field)) continue;
+        if (HasPreciousResource(field)) continue;
+        field.RawData[DB.RESOURCE_DISCOVERED_BY] |= newlyDiscoveredBy;
       }
+
       if (player < 255) Status = "Resource revealing finished for player: " + DB.COUNTRY_NAMES[player];
       else Status = "Resources revealed for all players!";
     }
